@@ -1,0 +1,184 @@
+-- phpMyAdmin SQL Dump
+-- version 4.0.10deb1
+-- http://www.phpmyadmin.net
+--
+-- Host: 127.0.0.1
+-- Generation Time: Jan 25, 2019 at 01:47 AM
+-- Server version: 5.5.57-0ubuntu0.14.04.1
+-- PHP Version: 5.5.9-1ubuntu4.22
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `Fireflower`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Customers`
+--
+
+CREATE TABLE IF NOT EXISTS `Customers` (
+  `CustomerID` int(11) NOT NULL AUTO_INCREMENT,
+  `OrderID` int(11) NOT NULL,
+  `FirstName` varchar(255) DEFAULT NULL,
+  `LastName` varchar(255) DEFAULT NULL,
+  `Address1` varchar(255) DEFAULT NULL,
+  `Email` varchar(255) DEFAULT NULL,
+  `Zipcode` varchar(255) DEFAULT NULL,
+  `City` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`CustomerID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `Customers`
+--
+
+INSERT INTO `Customers` (`CustomerID`, `OrderID`, `FirstName`, `LastName`, `Address1`, `Email`, `Zipcode`, `City`) VALUES
+(1, 1, 'Sarah', 'Rork', '545487 Cherry St.', 'sara.rork@gmail.com', '98102', 'Seattle'),
+(2, 2, 'Tom', 'Johnson', '23434 Lane Dr.', 'tom.j@gmail.com', '98555', 'Port Orchard'),
+(3, 3, 'Sammy', 'Lambert', '988 Timber Ave.', 'sammie85858@gmail.com', '98200', 'Seattle'),
+(4, 4, 'Frank', 'Bennet', '3455 Aloha St.', 'haopdjfirf2244@yahoo.com', '98102', 'Seattle'),
+(5, 5, 'Lang', 'House', '433 Apple Buck Rd.', 'Lang.House@net.com', '98044', 'San Francisco');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `OrderDetails`
+--
+
+CREATE TABLE IF NOT EXISTS `OrderDetails` (
+  `OrderID` int(11) NOT NULL,
+  `ProductID` int(11) NOT NULL,
+  `TrackingNumber` varchar(255) DEFAULT NULL,
+  `ProductName` varchar(255) DEFAULT NULL,
+  `Discount` decimal(15,0) DEFAULT NULL,
+  KEY `OrderID` (`OrderID`),
+  KEY `ProductID` (`ProductID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `OrderDetails`
+--
+
+INSERT INTO `OrderDetails` (`OrderID`, `ProductID`, `TrackingNumber`, `ProductName`, `Discount`) VALUES
+(1, 2, '122122', 'Medium', '0'),
+(2, 2, '122121', 'Medium', '0'),
+(3, 1, '122121', 'Mild', '0'),
+(5, 3, '122125', 'habanero', '0');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Orders`
+--
+
+CREATE TABLE IF NOT EXISTS `Orders` (
+  `OrderID` int(11) NOT NULL AUTO_INCREMENT,
+  `CustomerID` int(11) NOT NULL,
+  `ShipperID` int(11) NOT NULL,
+  `ProductID` int(11) NOT NULL,
+  `OrderDate` date DEFAULT NULL,
+  `ShipDate` date DEFAULT NULL,
+  `RecievedDate` date DEFAULT NULL,
+  `TrackingNumber` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`OrderID`),
+  KEY `CustomerID` (`CustomerID`),
+  KEY `ShipperID` (`ShipperID`),
+  KEY `ProductID` (`ProductID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+
+--
+-- Dumping data for table `Orders`
+--
+
+INSERT INTO `Orders` (`OrderID`, `CustomerID`, `ShipperID`, `ProductID`, `OrderDate`, `ShipDate`, `RecievedDate`, `TrackingNumber`) VALUES
+(1, 1, 2, 2, '2019-01-24', '2019-01-25', '2019-01-28', '122122'),
+(2, 2, 1, 2, '2019-01-24', '2019-01-25', '2019-01-28', '122121'),
+(3, 3, 4, 1, '2019-01-24', '2019-01-25', '2019-01-28', '122124'),
+(5, 5, 5, 3, '2019-01-24', '2019-01-25', '2019-01-28', '122125');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Products`
+--
+
+CREATE TABLE IF NOT EXISTS `Products` (
+  `ProductID` int(11) NOT NULL AUTO_INCREMENT,
+  `ProductName` varchar(255) DEFAULT NULL,
+  `UnitPrice` decimal(65,0) DEFAULT NULL,
+  `UnitsInStock` varchar(255) DEFAULT NULL,
+  `UnitsOnOrder` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ProductID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `Products`
+--
+
+INSERT INTO `Products` (`ProductID`, `ProductName`, `UnitPrice`, `UnitsInStock`, `UnitsOnOrder`) VALUES
+(1, 'Mild', '7', '17', '10'),
+(2, 'Medium ', '7', '20', '7'),
+(3, 'Habanaro', '7', '27', '13');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Shippers`
+--
+
+CREATE TABLE IF NOT EXISTS `Shippers` (
+  `ShipperID` int(11) NOT NULL AUTO_INCREMENT,
+  `CompanyName` varchar(255) DEFAULT NULL,
+  `ShipDate` date DEFAULT NULL,
+  `RecievedDate` date DEFAULT NULL,
+  `TrackingNumber` varchar(255) DEFAULT NULL,
+  `OrderDateRecieved` date DEFAULT NULL,
+  `OrderDateProcessed` date DEFAULT NULL,
+  `DriverId` varchar(255) DEFAULT NULL,
+  `DriverTagNumber` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ShipperID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `Shippers`
+--
+
+INSERT INTO `Shippers` (`ShipperID`, `CompanyName`, `ShipDate`, `RecievedDate`, `TrackingNumber`, `OrderDateRecieved`, `OrderDateProcessed`, `DriverId`, `DriverTagNumber`) VALUES
+(1, 'FedEx', '2019-01-25', '2019-01-28', '122121', '2019-01-24', '2019-01-24', '1', 'GG'),
+(2, 'UPS', '2019-01-25', '2019-01-28', '122122', '2019-01-24', '2019-01-24', '2', 'CC'),
+(3, 'UPS', '2019-01-25', '2019-01-28', '122123', '2019-01-24', '2019-01-24', '2', 'CC'),
+(4, 'FedEx', '2019-01-25', '2019-01-28', '122124', '2019-01-24', '2019-01-24', '1', 'GG'),
+(5, 'UPS', '2019-01-25', '2019-01-28', '122125', '2019-01-24', '2019-01-24', '2', 'CC');
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `OrderDetails`
+--
+ALTER TABLE `OrderDetails`
+  ADD CONSTRAINT `OrderDetails_ibfk_1` FOREIGN KEY (`OrderID`) REFERENCES `Orders` (`OrderID`),
+  ADD CONSTRAINT `OrderDetails_ibfk_2` FOREIGN KEY (`ProductID`) REFERENCES `Products` (`ProductID`);
+
+--
+-- Constraints for table `Orders`
+--
+ALTER TABLE `Orders`
+  ADD CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`CustomerID`) REFERENCES `Customers` (`CustomerID`),
+  ADD CONSTRAINT `Orders_ibfk_2` FOREIGN KEY (`ShipperID`) REFERENCES `Shippers` (`ShipperID`),
+  ADD CONSTRAINT `Orders_ibfk_3` FOREIGN KEY (`ProductID`) REFERENCES `Products` (`ProductID`);
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
